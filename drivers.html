@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>API website</title>
+    <script defer src="https://unpkg.com/alpinejs@3.5.0/dist/cdn.min.js"></script>
+</head>
+
+<body>
+     <div x-data="{
+        responsedata: null,
+        async getData() {
+            this.responsedata = await (await fetch('https://useritem-api-service-michielkuyken.cloud.okteto.net/drivers/')).json();
+            console.log(this.responsedata);
+        }
+    }" x-init="getData">
+        <h2>Drivers</h2>
+        <ul>
+            <template x-for="driver in responsedata" :key="driver.id">
+                <li>
+                    <strong x-text="driver.achternaam"></strong> - <span x-text="driver.voornaam"></span>
+                </li>
+            </template>
+            <template x-if="!responsedata">
+                <li>No drivers found</li>
+            </template>
+        </ul>
+    </div>
+    <a href="index.html">Index</a>
+</body>
+</html>
